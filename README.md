@@ -4,12 +4,10 @@ Wake word is the phrase that normally consists of two or more words. It is used 
 
 There are few open source toolkits available that can be used to build Wake Word Detection System. 
 
-https://commonvoice.mozilla.org/en/datasets - 70Gb, 80K voices, MP3
-
 In this project we will design a machine learning model to wake from a custom wake word like ‘Hey Fourth Brain’
 
 ### Data preparation 
-Used MCV corpus 8 en 70GB data as a source for positive (hey, fourth & brain) and negative wav files 
+We used MCV corpus 8 en https://commonvoice.mozilla.org/en/datasets - 70Gb, 80K voices, MP3 data as a source for positive (hey, fourth & brain) and negative wav files.  
 Used MFA to create timestamps for each of the MP3 files, needed to extract the wake words from the audio files later
 To address imbalanced data we used google cloud api to generate additional positive wav files
 Recorded 200 hundred short audio files with background noise 
