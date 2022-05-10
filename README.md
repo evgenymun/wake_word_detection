@@ -1,1 +1,2 @@
-# wake_word_detection
+# Wake word detection
+
