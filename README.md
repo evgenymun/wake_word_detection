@@ -6,7 +6,7 @@ There are few open source toolkits available that can be used to build Wake Word
 
 https://commonvoice.mozilla.org/en/datasets - 70Gb, 80K voices, MP3
 
-In this project we will design a machine learning model to wake from a custom wake word like ‘Hey Forth Brain’
+In this project we will design a machine learning model to wake from a custom wake word like ‘Hey Fourth Brain’
 
 ### Data preparation 
 Used MCV corpus 8 en 70GB data as a source for positive (hey, fourth & brain) and negative wav files 
