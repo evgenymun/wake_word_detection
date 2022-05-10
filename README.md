@@ -20,7 +20,7 @@ Created dataloader class to handle batch data processing
 Apply MEL Spectogram to convert data suitable for audio classification
 Make audio length similar between positive and negative samples 
 Add noise
-#### Modeling approach 
+### Modeling approach 
 Used CNN to predict label for each of the wake words
 4 conv blocks / flatten / linear / softmax => Didn’t work
 Conv2d-1/ReLu/MaxPool/BatchNorm/Conv2d-2/ReLu/MaxPool/BatchNorm/Linear/ReLU/Dropout/Linear => OK with some issues
