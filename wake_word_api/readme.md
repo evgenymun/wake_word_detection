@@ -11,5 +11,7 @@
     uvicorn main:app --reload
     
 * Open index.html, press the button to start recording for 3 seconds.
-<img width="273" alt="image" src="https://user-images.githubusercontent.com/13990748/168440616-fa501bb2-2bb3-428d-828a-c18bb61a250b.png"> 
+        
+        <img width="273" alt="image" src="https://user-images.githubusercontent.com/13990748/168440616-fa501bb2-2bb3-428d-828a-c18bb61a250b.png"> 
+
 * If the wake word is detected you will see a corresponding phrase 'Wake word 'hey fourth brain' detected'. 
