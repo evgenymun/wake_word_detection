@@ -1,6 +1,6 @@
 # Wake word detection
 
-Wake word is the phrase that normally consists of two or more words. It is used to engage always listening AI into a full power processing. Some of the well know wake words are ‘OK Google’, ‘Hey Alexa’ or ‘Hey Siri’.
+Wake word is the phrase that normally consists of two or more words. It is used to engage always listening AI into a full power processing. Some of the well known wake words are ‘OK Google’, ‘Hey Alexa’ or ‘Hey Siri’.
 
 There are few open source toolkits available that can be used to build Wake Word Detection System. 
 
