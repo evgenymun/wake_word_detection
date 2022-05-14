@@ -6,7 +6,7 @@ There are few open source toolkits available that can be used to build Wake Word
 
 In this project we will design a machine learning model to wake from a custom wake word like ‘Hey Fourth Brain’.
 
-The detailed step by step approach could be found in the [Colab notebook](https://github.com/evgenymun/wake_word_detection/blob/main/wakeWordDetection.ipynb).
+The detailed step by step approach could be found in the [wakeWordDetectioin.ipynb](https://github.com/evgenymun/wake_word_detection/blob/main/wakeWordDetection.ipynb).
 
 ### Data preparation 
 * We used MCV corpus 8 en https://commonvoice.mozilla.org/en/datasets - 70Gb, 80K voices, MP3 data as a source for positive (hey, fourth & brain) and negative wav files.  
