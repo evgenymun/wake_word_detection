@@ -34,6 +34,7 @@ The detailed step by step approach could be found in the [wakeWordDetectioin.ipy
 * We used javascript to record the audio in Colab. The recording was split into words and put thru the CNN prediction.
 <img width="376" alt="image" src="https://user-images.githubusercontent.com/13990748/168439167-384d640f-b3c6-490b-9b80-710461d2532d.png">
 <img width="407" alt="image" src="https://user-images.githubusercontent.com/13990748/168439211-0ae8b35e-fa48-4b27-8d24-255bd192f0b7.png"> 
+
 * Even though we had pretty good accuracy and F1 score during training and testing the actual detection is proved to be far from perfect. One possible reason is the small postive sample. 
 
 ### FastAPI
