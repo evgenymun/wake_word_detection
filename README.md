@@ -23,15 +23,14 @@ In this project we will design a machine learning model to wake from a custom wa
 * Design # 1: 4 conv blocks / flatten / linear / softmax => Didn’t work
 * Design # 2: Conv2d-1/ReLu/MaxPool/BatchNorm/Conv2d-2/ReLu/MaxPool/BatchNorm/Linear/ReLU/Dropout/Linear => OK with some issues
 * Running the model on test data produced Accuracy of 0.96 with F1 abouve 0.93 for wake words.  
-<p>              
        precision    recall  f1-score   support
        brain       0.99      0.95      0.97       604
-      fourth       0.99      0.88      0.93       337
-         hey       0.97      0.99      0.98       837
-    negative       0.78      0.99      0.87       162
-    accuracy                           0.96      1940
-   macro avg       0.93      0.95      0.94      1940
-weighted avg       0.96      0.96      0.96      1940 
+       fourth       0.99      0.88      0.93       337
+       hey       0.97      0.99      0.98       837
+       negative       0.78      0.99      0.87       162
+       accuracy                           0.96      1940
+       macro avg       0.93      0.95      0.94      1940
+       weighted avg       0.96      0.96      0.96      1940 
 
 ### Testing
 * We used javascript to record the audio in Colab. The recording was split into words and put thru the CNN prediction. 
