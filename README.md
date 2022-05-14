@@ -22,10 +22,10 @@ In this project we will design a machine learning model to wake from a custom wa
 * Used CNN to predict label for each of the wake words
 * Design # 1: 4 conv blocks / flatten / linear / softmax => Didn’t work
 * Design # 2: Conv2d-1/ReLu/MaxPool/BatchNorm/Conv2d-2/ReLu/MaxPool/BatchNorm/Linear/ReLU/Dropout/Linear => OK with some issues
-* <img width="548" alt="image" src="https://user-images.githubusercontent.com/13990748/168438879-0f02e318-530f-44bd-a183-929bb859c3c3.png">
+<img width="548" alt="image" src="https://user-images.githubusercontent.com/13990748/168438879-0f02e318-530f-44bd-a183-929bb859c3c3.png">
 
 * Running the model on test data produced Accuracy of 0.96 with F1 abouve 0.93 for wake words.  
-* <img width="468" alt="image" src="https://user-images.githubusercontent.com/13990748/168438919-8b131143-4fdc-4b0c-ba7f-efb35862f748.png">
+<img width="468" alt="image" src="https://user-images.githubusercontent.com/13990748/168438919-8b131143-4fdc-4b0c-ba7f-efb35862f748.png">
 
 ### Testing
 * We used javascript to record the audio in Colab. The recording was split into words and put thru the CNN prediction. 
