@@ -28,7 +28,9 @@ In this project we will design a machine learning model to wake from a custom wa
 <img width="468" alt="image" src="https://user-images.githubusercontent.com/13990748/168438919-8b131143-4fdc-4b0c-ba7f-efb35862f748.png">
 
 ### Testing
-* We used javascript to record the audio in Colab. The recording was split into words and put thru the CNN prediction. 
+* We used javascript to record the audio in Colab. The recording was split into words and put thru the CNN prediction.
+<img width="376" alt="image" src="https://user-images.githubusercontent.com/13990748/168439167-384d640f-b3c6-490b-9b80-710461d2532d.png">
+<img width="407" alt="image" src="https://user-images.githubusercontent.com/13990748/168439211-0ae8b35e-fa48-4b27-8d24-255bd192f0b7.png"> 
 * Even though we had pretty good accuracy and F1 score during training and testing the actual detection is proved to be far from perfect. One possible reason is the small postive sample. 
 
 ### FastAPI
