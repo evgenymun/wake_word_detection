@@ -2,7 +2,7 @@
 
 Wake word is the phrase that normally consists of two or more words. It is used to engage always listening AI into a full power processing. Some of the well known wake words are ‘OK Google’, ‘Hey Alexa’ or ‘Hey Siri’.
 
-There are few open source toolkits available that can be used to build Wake Word Detection System. 
+There are few open source toolkits available that can be used to build Wake Word Detection System. One of the great examples is [Howl](https://github.com/castorini/howl).
 
 In this project we will design a machine learning model to wake from a custom wake word like ‘Hey Fourth Brain’.
 
