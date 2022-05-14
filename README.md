@@ -34,4 +34,4 @@ In this project we will design a machine learning model to wake from a custom wa
 * Even though we had pretty good accuracy and F1 score during training and testing the actual detection is proved to be far from perfect. One possible reason is the small postive sample. 
 
 ### FastAPI
-* We used a simple FastAPI set up to test the deployement (see wake_word_api)
+* We used a simple FastAPI set up to test the deployement (see [wake_word_api](https://github.com/evgenymun/wake_word_detection/tree/main/wake_word_api))
