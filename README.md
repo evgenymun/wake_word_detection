@@ -23,6 +23,7 @@ In this project we will design a machine learning model to wake from a custom wa
 * Design # 1: 4 conv blocks / flatten / linear / softmax => Didn’t work
 * Design # 2: Conv2d-1/ReLu/MaxPool/BatchNorm/Conv2d-2/ReLu/MaxPool/BatchNorm/Linear/ReLU/Dropout/Linear => OK with some issues
 * Running the model on test data produced Accuracy of 0.96 with F1 abouve 0.93 for wake words.  
+* <p>
        precision    recall  f1-score   support
        brain       0.99      0.95      0.97       604
        fourth       0.99      0.88      0.93       337
