@@ -1,4 +1,12 @@
-from fastapi import FastAPI
+# 1. Library imports
+import uvicorn
+import multipart
+import aiofiles
+from fastapi import FastAPI, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
+#from Model import CNN
+from fastapi.templating import Jinja2Templates
+
 
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
@@ -8,22 +16,41 @@ import librosa
 import ipywidgets as widgets
 from IPython import display as disp
 from IPython.display import display, Audio, clear_output
-# from google.colab import output
 import base64
+
 from pydub import AudioSegment
+from ffprobe import FFProbe
+
 import io
+import os
 import tempfile
 import numpy as np
 
 
 import torch
 import torchaudio
-import sounddevice as sd
-from scipy.io.wavfile import write
+import torchaudio.transforms as T
 from torch import nn
+
+from scipy.io.wavfile import write
+
 # from torchsummary import summary
 
-app = FastAPI()
+# 2. Create app and model objects
+app   = FastAPI()
+templates = Jinja2Templates(directory="templates")
+#model = CNN()
+
+#origins = ['http://127.0.0.1:8000']
+origins = ['*']
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 
 WAKE_WORDS = ["hey", "fourth", "brain"]
@@ -31,7 +58,7 @@ class CNN(nn.Module):
     def __init__(self, num_labels, num_maps1, num_maps2, num_hidden_input, hidden_size):
         super(CNN, self).__init__()
         conv0 = nn.Conv2d(1, num_maps1, (8, 16), padding=(4, 0), stride=(2, 2), bias=True)
-        pool = nn.MaxPool2d(2)
+        pool  = nn.MaxPool2d(2)
         conv1 = nn.Conv2d(num_maps1, num_maps2, (5, 5), padding=2, stride=(2, 1), bias=True)
         self.num_hidden_input = num_hidden_input
         self.encoder1 = nn.Sequential(conv0,
@@ -53,17 +80,7 @@ class CNN(nn.Module):
         x = x2.view(-1, self.num_hidden_input)
         return self.output(x)
 
-# Little helper function to play the audio
-def play_audio(waveform, sample_rate):
-  waveform = waveform.numpy()
 
-  num_channels, num_frames = waveform.shape
-  if num_channels == 1:
-    display(Audio(waveform[0], rate=sample_rate))
-  elif num_channels == 2:
-    display(Audio((waveform[0], waveform[1]), rate=sample_rate))
-  else:
-    raise ValueError("Waveform with more than 2 channels are not supported.")
 
 # Before we can test the data on the wake word phrase 
 # let's create a function to trim or padd the data
@@ -82,9 +99,28 @@ def prepare_Stream(signal, num_samples):
 
     return signal
 
-# The function will load the file, split inti words and then make a prediction
+def stereo_to_mono (file):
+    # Open the stereo audio file as an AudioSegment instance
+    stereo_audio = AudioSegment.from_file(file, format="wav")
+
+    # Calling the split_to_mono method on the stereo audio file
+    mono_audios = stereo_audio.split_to_mono()
+    mono_file = mono_audios[0].export(file,    format="wav")
+    pass
+
+def resamle_file (file, resampled_rate):
+
+    waveform, sample_rate = torchaudio.load(file)
+    resampler = T.Resample(sample_rate, resampled_rate, dtype=waveform.dtype)
+    resampled_waveform = resampler(waveform)
+
+    torchaudio.save(file, resampled_waveform, resampled_rate)
+    pass
+
+
+# The function will load the file, split into words and then make a prediction
 # If all three words are detected it will produce a note that wake word is detected
-def predict_wake_word(recording_path):
+def predict_wake_word(audioFile):
     if torch.cuda.is_available():
         device = "cuda"
     else:
@@ -98,6 +134,12 @@ def predict_wake_word(recording_path):
     num_hidden_input =  1024
     hidden_size = 128
     SAMPLE_RATE = 16000
+    CHUNK = 500
+    CHANNELS = 1
+    RATE = SAMPLE_RATE
+    RECORD_MILLI_SECONDS = 1000
+    audio_float_size = 32767
+
 
     cnn2 = CNN(num_labels, num_maps1, num_maps2, num_hidden_input, hidden_size)
     state_dict = torch.load("wakeworddetaction_cnn7.pth", map_location=torch.device('cpu'))
@@ -109,11 +151,7 @@ def predict_wake_word(recording_path):
         n_fft=1024,
         hop_length=512,
         n_mels=64
-        # n_fft=512,
-        # hop_length=200,
-        # n_mels=40
     )
-    mel_spectrogram.to(device)
 
     cnn2.eval()
     
@@ -121,50 +159,43 @@ def predict_wake_word(recording_path):
     # negative
     classes.append("negative")
 
-    audio_float_size = 32767
 
-    CHUNK = 500
-    CHANNELS = 1
-    RATE = SAMPLE_RATE
-    RECORD_MILLI_SECONDS = 1000
+    stereo_to_mono (audioFile)
+    resamle_file (audioFile, RATE)
 
 
-    testFile = recording_path
-
-    waveform, sample_rate = torchaudio.load(testFile)
+    waveform, sample_rate = torchaudio.load(audioFile)
     print(f"Recording SR: {sample_rate}")
-    sounddata = librosa.core.load(testFile, sr=RATE, mono=True)[0]
-    print(f"Original audio")
-    play_audio(waveform, sample_rate)
-
-
-    sound = AudioSegment.from_wav(testFile)
-    chunks = split_on_silence(sound, 
-        # must be silent for at least half a second
-        min_silence_len=100,
-
-        # consider it silent if quieter than -16 dBFS
-        silence_thresh=-40
-    )
-
+    
+    
+    #splitting Audio file to chunks of words
+    sound = AudioSegment.from_wav(audioFile)
+    # must be silent for at least half a second
+    # consider it silent if quieter than -16 dBFS
+    chunks = []
+    chunks = split_on_silence(sound, min_silence_len=100, silence_thresh=-40)
+       
+    
     paths = []
     for i, chunk in enumerate(chunks):
+        print(f"Chunk number: {i}")
         chunk.export("./vab/chunk{0}.wav".format(i), format="wav")
         paths.append("./vab/chunk{0}.wav".format(i))
 
     inference_track = []
     target_state = 0
-
+    
     for path in paths: 
     
         waveform = ''
         waveform, sample_rate = torchaudio.load(path)
-        print(f"path: {path}")
-        play_audio(waveform, sample_rate)
-
         signal = prepare_Stream(waveform, 16000)
+        #os.remove(path)
+
         with torch.no_grad():
+
             mel_audio_data = mel_spectrogram(signal.to(device)).float()
+
             predictions = cnn2(mel_audio_data.unsqueeze_(0).to('cpu'))
             print(f"predictions: {predictions}")
             predicted_index = predictions[0].argmax(0)
@@ -183,28 +214,35 @@ def predict_wake_word(recording_path):
             print(f"inference track: {inference_track}")
             if inference_track == WAKE_WORDS:
                 print(f"Wake word {' '.join(inference_track)} detected")
-                # target_state = 0
-                # inference_track = []
-                return(f"Wake word {' '.join(inference_track)} detected")
+                #return(f"Wake word {' '.join(inference_track)} detected")
+                return{ 'prediction':1, 
+                        'words': {' '.join(inference_track)}}
         elif target_state == 2: 
             target_state = 0
-    return(f"Wake word is not detected: {' '.join(inference_track)}")
+    return{'prediction':0, 
+           'words': {' '.join(inference_track)}}
+    
 
 @app.get("/health")
 def health():
     return "Service is running."
 
-@app.get("/wav")
-def wav():
-    # audio_file = open(some_file_path, mode="rb")
-    # return StreamingResponse(audio_file, media_type="audio/wav")
 
-    fs = 16000  # Sample rate
-    seconds = 4  # Duration of recording
-
-    myrecording = sd.rec(int(seconds * fs), samplerate=fs, channels=1)
-    sd.wait()  # Wait until recording is finished
-    write('./vab/output.wav', fs, myrecording)  # Save as WAV file 
-
-    return (predict_wake_word('./vab/output.wav'))
+@app.post("/save")
+async def create_upload_file(file: UploadFile=File(...)):
     
+    print("filename = ", file.filename) # getting filename
+    destination_file_path = "vab/"+ file.filename
+    print("filepath = ", destination_file_path)
+
+    async with aiofiles.open(destination_file_path, 'wb') as out_file:
+        while content := await file.read(1024):  # async read file chunk
+            await out_file.write(content)  # async write file chunk
+    
+    return (predict_wake_word(destination_file_path))
+    
+
+# 4. Run the API with uvicorn
+#    Will run on http://127.0.0.1:8000
+if __name__ == '__main__':
+    uvicorn.run(app, host='127.0.0.1', port=8000)  
