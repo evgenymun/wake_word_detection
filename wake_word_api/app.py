@@ -4,8 +4,7 @@ import multipart
 import aiofiles
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-#from Model import CNN
-from fastapi.templating import Jinja2Templates
+from fastapi.encoders import jsonable_encoder
 
 
 from pydub import AudioSegment
@@ -38,7 +37,6 @@ from scipy.io.wavfile import write
 
 # 2. Create app and model objects
 app   = FastAPI()
-templates = Jinja2Templates(directory="templates")
 #model = CNN()
 
 #origins = ['http://127.0.0.1:8000']
@@ -215,12 +213,13 @@ def predict_wake_word(audioFile):
             if inference_track == WAKE_WORDS:
                 print(f"Wake word {' '.join(inference_track)} detected")
                 #return(f"Wake word {' '.join(inference_track)} detected")
-                return{ 'prediction':1, 
-                        'words': {' '.join(inference_track)}}
+                return jsonable_encoder({   'prediction':1, 
+                                            'words': {' '.join(inference_track)}})
         elif target_state == 2: 
             target_state = 0
-    return{'prediction':0, 
-           'words': {' '.join(inference_track)}}
+
+    return jsonable_encoder({'prediction':0, 
+                             'words': {' '.join(inference_track)}})
     
 
 @app.get("/health")

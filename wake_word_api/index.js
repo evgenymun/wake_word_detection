@@ -113,14 +113,18 @@ function sendData(file) {
     let formData = new FormData();
      
     formData.set('file', file, 'FourthBrain.wav');
-    fetch('http://127.0.0.1:8000/save', {method: "POST", body: formData});
+
+    fetch('http://127.0.0.1:8000/save', {method: "POST", body: formData})
+    .then(response => {
+        return response.json();
+    })
+    .then((data) => {
+        console.log(data);
+        document.getElementById('feedback').innerHTML = data.prediction;
+        document.getElementById('words').innerHTML = data.words;
+    });
 }
 
-//async function getPrediction(url){
-//    const response = await fetch(url, {method: "GET"});
-//    var data = await response.json();
-//    console.log(data);
-//}
 
 
 playButton.addEventListener("click", function () {
