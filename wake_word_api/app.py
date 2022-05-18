@@ -5,7 +5,8 @@ import aiofiles
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
-
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
@@ -38,6 +39,13 @@ from scipy.io.wavfile import write
 # 2. Create app and model objects
 app   = FastAPI()
 #model = CNN()
+
+templates = Jinja2Templates(directory="templates")
+app.mount("/templates", StaticFiles(directory="templates", html=True), name="templates")
+
+@app.get("/")
+async def get(request: Request):
+    return templates.TemplateResponse("index.html", {'request': request})
 
 #origins = ['http://127.0.0.1:8000']
 origins = ['*']
