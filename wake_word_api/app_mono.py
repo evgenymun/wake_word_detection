@@ -3,9 +3,15 @@
 # import multipart
 from os import spawnlp
 import aiofiles
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import PlainTextResponse
 #from Model import CNN
+from starlette.responses import FileResponse 
+from fastapi import Request
 
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
@@ -32,7 +38,13 @@ from torch import nn
 
 # 2. Create app and model objects
 app   = FastAPI()
-#model = CNN()
+
+templates = Jinja2Templates(directory="templates")
+app.mount("/templates", StaticFiles(directory="templates", html=True), name="templates")
+
+@app.get("/")
+async def get(request: Request):
+    return templates.TemplateResponse("index_mono.html", {'request': request})
 
 #origins = ['http://127.0.0.1:8000']
 origins = ['*']
@@ -223,19 +235,19 @@ def health():
     return "Service is running."
 
 
-@app.post("/save")
+@app.post("/save", response_class=PlainTextResponse)
 async def create_upload_file(file: UploadFile=File(...)):
     
-    print("filename = ", file.filename) # getting filename
+    # print("filename = ", file.filename) # getting filename
     destination_file_path = "vab/FourthBrain.wav" #+ file.filename
-    print("filepath = ", destination_file_path)
+    # print("filepath = ", destination_file_path)
 
     async with aiofiles.open(destination_file_path, 'wb') as out_file:
         while content := await file.read(1024):  # async read file chunk
             await out_file.write(content)  # async write file chunk
     
     return (predict_wake_word(destination_file_path))
-    
+
 
 # 4. Run the API with uvicorn
 #    Will run on http://127.0.0.1:8000
