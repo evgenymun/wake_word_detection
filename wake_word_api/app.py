@@ -1,6 +1,7 @@
 # 1. Library imports
-import uvicorn
-import multipart
+# import uvicorn
+# import multipart
+from os import spawnlp
 import aiofiles
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -86,8 +87,12 @@ def play_audio(waveform, sample_rate):
 
 # Before we can test the data on the wake word phrase 
 # let's create a function to trim or padd the data
-def prepare_Stream(signal, num_samples):
-
+def prepare_Stream(signal, sample_rate, num_samples):
+    
+    if sample_rate != num_samples:
+        resampler = torchaudio.transforms.Resample(sample_rate, num_samples)
+        signal = resampler(signal.cpu())
+        print(f"sample_rate update")
     length_signal = signal[0].shape[0]
 
     if length_signal > num_samples:
@@ -177,9 +182,10 @@ def predict_wake_word(recording_path):
         waveform = ''
         waveform, sample_rate = torchaudio.load(path)
         print(f"path: {path}")
+        print(f"sample_rate: {sample_rate}")
         #play_audio(waveform, sample_rate)
 
-        signal = prepare_Stream(waveform, 16000)
+        signal = prepare_Stream(waveform, sample_rate, 16000)
 
         with torch.no_grad():
 
@@ -221,7 +227,7 @@ def health():
 async def create_upload_file(file: UploadFile=File(...)):
     
     print("filename = ", file.filename) # getting filename
-    destination_file_path = "vab/"+ file.filename
+    destination_file_path = "vab/FourthBrain.wav" #+ file.filename
     print("filepath = ", destination_file_path)
 
     async with aiofiles.open(destination_file_path, 'wb') as out_file:
@@ -233,5 +239,5 @@ async def create_upload_file(file: UploadFile=File(...)):
 
 # 4. Run the API with uvicorn
 #    Will run on http://127.0.0.1:8000
-if __name__ == '__main__':
-    uvicorn.run(app, host='127.0.0.1', port=8000)  
+# if __name__ == '__main__':
+#     uvicorn.run(app, host='127.0.0.1', port=8000)  

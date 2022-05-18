@@ -235,8 +235,8 @@ def health():
     return "Service is running."
 
 
-@app.post("/save", response_class=PlainTextResponse)
-async def create_upload_file(file: UploadFile=File(...)):
+@app.post("/save")
+async def create_upload_file(request: Request, file: UploadFile=File(...)):
     
     # print("filename = ", file.filename) # getting filename
     destination_file_path = "vab/FourthBrain.wav" #+ file.filename
@@ -245,9 +245,15 @@ async def create_upload_file(file: UploadFile=File(...)):
     async with aiofiles.open(destination_file_path, 'wb') as out_file:
         while content := await file.read(1024):  # async read file chunk
             await out_file.write(content)  # async write file chunk
-    
-    return (predict_wake_word(destination_file_path))
 
+    result = (predict_wake_word(destination_file_path))
+    print('here')
+    return templates.TemplateResponse('index_mono2.html', context={'request': request, 'result': result})
+
+# @app.post("/save")
+# def form_post(request: Request):
+#     result = "Hello"
+#     return templates.TemplateResponse('index_mono.html', context={'request': request, 'result': result})
 
 # 4. Run the API with uvicorn
 #    Will run on http://127.0.0.1:8000
