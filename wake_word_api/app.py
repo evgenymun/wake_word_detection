@@ -26,7 +26,7 @@ import io
 import os
 import tempfile
 import numpy as np
-
+import glob 
 
 import torch
 import torchaudio
@@ -174,7 +174,9 @@ def predict_wake_word(audioFile):
     waveform, sample_rate = torchaudio.load(audioFile)
     print(f"Recording SR: {sample_rate}")
     
-    
+    # delete all chunks before splitting again
+    # need to add the code here
+
     #splitting Audio file to chunks of words
     sound = AudioSegment.from_wav(audioFile)
     # must be silent for at least half a second
