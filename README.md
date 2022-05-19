@@ -37,5 +37,8 @@ The detailed step by step approach could be found in the [wakeWordDetectioin.ipy
 
 * Even though we had pretty good accuracy and F1 score during training and testing the actual detection is proved to be far from perfect. One possible reason is the small postive sample. 
 
-### FastAPI
-* We used a simple FastAPI set up to test the deployement (see [wake_word_api](https://github.com/evgenymun/wake_word_detection/tree/main/wake_word_api))
+### Deployment
+* We used FastAPI to test the deployement (see [wake_word_api](https://github.com/evgenymun/wake_word_detection/tree/main/wake_word_api))
+* API consists of the front end (HTML, .js) and backend Fastapi, Uvicorn hosted on AWS EC2 Ubuntu instance
+* We used port 5000 for SSL connection which was required for audio recording access in the browser
+* Deployment was new to all of the members but with great support from Camilo we were able to get it done  
