@@ -56,4 +56,4 @@ The detailed step by step approach could be found in the [wakeWordDetectioin.ipy
 * After the clean up process is complete the next step will be to generate 'data' as a product service where we provide training data for the user. 
 * We also plan to provide an API to train your own wake word and download the pth file
 
-*** Thank you Fourth Brain team for an amazing journey into the world of MLE! 
+### Thank you Fourth Brain team for an amazing journey into the world of MLE! 
