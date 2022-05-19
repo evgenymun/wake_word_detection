@@ -37,8 +37,23 @@ The detailed step by step approach could be found in the [wakeWordDetectioin.ipy
 
 * Even though we had pretty good accuracy and F1 score during training and testing the actual detection is proved to be far from perfect. One possible reason is the small postive sample. 
 
-### Deployment
-* We used FastAPI to test the deployement (see [wake_word_api](https://github.com/evgenymun/wake_word_detection/tree/main/wake_word_api))
-* API consists of the front end (HTML, .js) and backend Fastapi, Uvicorn hosted on AWS EC2 Ubuntu instance
-* We used port 5000 for SSL connection which was required for audio recording access in the browser
+### FastAPI
+* We used FastAPI to test the functionality before the deployement (see [wake_word_api](https://github.com/evgenymun/wake_word_detection/tree/main/wake_word_api))
+* API consists of the front end (HTML, .js) and backend Fastapi, Uvicorn which we later hosted on AWS EC2 Ubuntu instance
+
+### Deployement
+* We deployed the API on the AWS EC2 port 5000 for SSL connection 
+* SSL was required for audio recording access in the browser
 * Deployment was new to all of the members but with great support from Camilo we were able to get it done  
+* To use uvicorn with ssl we generated the key and chain using CERTBOT
+* Since we didn't have the domain name Camilo kindly pointed it to our AWS IP 
+
+### Next steps
+* The API is just in the begining stage now. 
+* We will be adding better code structure 
+* The detection is done on the saved file at this point. Instream wake word detection will be added next. 
+* Also the file is split on the chunks that are saved on the server. Obviously if multiple people testing that presents some challenges. So the next step will be to add temporary file structure to avoid the ovewriting. 
+* After the clean up process is complete the next step will be to generate 'data' as a product service where we provide training data for the user. 
+* We also plan to provide an API to train your own wake word and download the pth file
+
+*** Thank you Fourth Brain team for an amazing journey into the world of MLE! 
