@@ -14,8 +14,31 @@ The detailed step by step approach could be found in the [wakeWordDetectioin.ipy
 * Used MFA to create timestamps for each of the MP3 files. The timestamps are needed to extract the wake words from the audio files later.
 * To address the imbalanced data we used google cloud api to generate additional positive wav files.
 * Recorded 200 hundred short audio files with background noise. 
-* Final positive data had about 5K audio files. 
-* We limited negative data to 5K audio files as well.  
+* Final positive data had about 6K audio files. 
+* We limited negative data to 4K audio files as well.  
+### Data structure 
+* Due to the data size we didn't create a folder sturcture in github. 
+* Most of the data processing on prepared in the previos step data happened in Google Colab. 
+* Here is the outline of how we stored the data
+
+./wake_words/ds
+
+positive/
+
+words # We don't have the data here yet. It will be done later
+    hey
+    fourth
+    brain 
+    test.csv
+    train.csv
+    dev.csv 
+aligned # Move MFA generated textGrid files here
+audio # Move .wav and .lab files from data prep step
+test.csv # This was also 
+train.csv # generated 
+dev.csv # in the prep step 
+
+
 ### Data processing 
 * Created dataloader class to handle batch data processing
 * Applied MEL Spectogram to convert data suitable for audio classification.
