@@ -20,6 +20,7 @@ The detailed step by step approach could be found in the [wakeWordDetectioin.ipy
 * Due to the data size we didn't create a folder sturcture in github. 
 * Most of the data processing on prepared in the previos step data happened in Google Colab. 
 * Here is the outline of how we stored the data (a snapshot from the [wakeWordDetectioin.ipynb](https://github.com/evgenymun/wake_word_detection/blob/main/wakeWordDetection.ipynb))
+
 ./wake_words/ds
 
 <img width="515" alt="image" src="https://user-images.githubusercontent.com/13990748/169617993-51642368-c6cd-4183-8dbc-6782967e57e6.png">
