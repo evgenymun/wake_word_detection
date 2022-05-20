@@ -57,6 +57,8 @@ The detailed step by step approach could be found in the [wakeWordDetectioin.ipy
 * Deployment was new to all of the members but with great support from Camilo we were able to get it done  
 * To use uvicorn with ssl we generated the key and chain using CERTBOT
 * Since we didn't have the domain name Camilo kindly pointed it to our AWS IP 
+*![image](https://user-images.githubusercontent.com/13990748/169618918-de01f576-84b5-4f0c-a398-8ba4a8bd4b34.png)
+
 
 ### Next steps
 * The API is just in the begining stage now. 
