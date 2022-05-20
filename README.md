@@ -22,21 +22,7 @@ The detailed step by step approach could be found in the [wakeWordDetectioin.ipy
 * Here is the outline of how we stored the data
 
 ./wake_words/ds
-
-positive/
-
-words # We don't have the data here yet. It will be done later
-    hey
-    fourth
-    brain 
-    test.csv
-    train.csv
-    dev.csv 
-aligned # Move MFA generated textGrid files here
-audio # Move .wav and .lab files from data prep step
-test.csv # This was also 
-train.csv # generated 
-dev.csv # in the prep step 
+<img width="584" alt="image" src="https://user-images.githubusercontent.com/13990748/169617771-d3440d38-48b2-4ed5-882e-699f9abd4476.png">
 
 
 ### Data processing 
