@@ -38,7 +38,8 @@ The detailed step by step approach could be found in the [wakeWordDetectioin.ipy
 <img width="548" alt="image" src="https://user-images.githubusercontent.com/13990748/168438879-0f02e318-530f-44bd-a183-929bb859c3c3.png">
 
 * Running the model on test data produced Accuracy of 0.96 with F1 abouve 0.93 for wake words.  
-<img width="468" alt="image" src="https://user-images.githubusercontent.com/13990748/168438919-8b131143-4fdc-4b0c-ba7f-efb35862f748.png">
+<img width="1166" alt="image" src="https://user-images.githubusercontent.com/13990748/169634119-f180e96b-75ac-4d0b-8b31-37530fc9c75d.png">
+
 
 ### Testing
 * We used javascript to record the audio in Colab. The recording was split into words and put thru the CNN prediction.
