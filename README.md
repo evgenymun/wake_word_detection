@@ -38,7 +38,7 @@ The detailed step by step approach could be found in the [wakeWordDetectioin.ipy
 <img width="1166" alt="image" src="https://user-images.githubusercontent.com/13990748/169634158-1aa47438-f108-407f-8f0b-e7fc28d73de1.png">
 
 * Running the model on test data produced Accuracy of 0.96 with F1 abouve 0.93 for wake words.  
-![image](https://user-images.githubusercontent.com/13990748/169634206-e1be8efd-c2fb-44b2-86c8-94cccd8e7e6b.png)
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/13990748/169634206-e1be8efd-c2fb-44b2-86c8-94cccd8e7e6b.png>
 
 
 ### Testing
