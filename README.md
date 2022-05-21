@@ -35,10 +35,10 @@ The detailed step by step approach could be found in the [wakeWordDetectioin.ipy
 * Used CNN to predict label for each of the wake words
 * Design # 1: 4 conv blocks / flatten / linear / softmax => Didn’t work
 * Design # 2: Conv2d-1/ReLu/MaxPool/BatchNorm/Conv2d-2/ReLu/MaxPool/BatchNorm/Linear/ReLU/Dropout/Linear => OK with some issues
-<img width="900" alt="image" src="https://user-images.githubusercontent.com/13990748/169634158-1aa47438-f108-407f-8f0b-e7fc28d73de1.png">
+<img width="800" alt="image" src="https://user-images.githubusercontent.com/13990748/169634158-1aa47438-f108-407f-8f0b-e7fc28d73de1.png">
 
 * Running the model on test data produced Accuracy of 0.96 with F1 abouve 0.93 for wake words.  
-<img width="400" alt="image" src="https://user-images.githubusercontent.com/13990748/169634206-e1be8efd-c2fb-44b2-86c8-94cccd8e7e6b.png">
+<img width="600" alt="image" src="https://user-images.githubusercontent.com/13990748/169634206-e1be8efd-c2fb-44b2-86c8-94cccd8e7e6b.png">
 
 
 ### Testing
