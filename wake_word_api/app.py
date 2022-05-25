@@ -1,6 +1,6 @@
 # 1. Library imports
 import uvicorn
-import multipart
+#import multipart
 import aiofiles
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -12,26 +12,27 @@ from fastapi import Request
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
 import matplotlib.pyplot as plt
-import librosa
+#import librosa
 
 import ipywidgets as widgets
 from IPython import display as disp
 from IPython.display import display, Audio, clear_output
-import base64
+#import base64
 
 from pydub import AudioSegment
 # from ffprobe import FFProbe
 
-import io
-import os
-import tempfile
+#import io
+#import os
+#import tempfile
 import numpy as np
-import glob 
+#import glob 
 
 import torch
 import torchaudio
 import torchaudio.transforms as T
 from torch import nn
+import torch.nn.functional as nnf
 
 from scipy.io.wavfile import write
 
@@ -152,6 +153,7 @@ def predict_wake_word(audioFile):
     state_dict = torch.load("wakeworddetaction_cnn7.pth", map_location=torch.device('cpu'))
     cnn2.load_state_dict(state_dict)
 
+
     # load urban sound dataset dataset
     mel_spectrogram = torchaudio.transforms.MelSpectrogram(
         sample_rate=SAMPLE_RATE,
@@ -207,6 +209,11 @@ def predict_wake_word(audioFile):
 
             predictions = cnn2(mel_audio_data.unsqueeze_(0).to('cpu'))
             print(f"predictions: {predictions}")
+            
+            prob = nnf.softmax(predictions, dim=1)
+            top_p, top_class = prob.topk(1, dim = 1)
+            print(f"probability of predicted values: {top_p}")
+            
             predicted_index = predictions[0].argmax(0)
             print(f"predicted_index: {predicted_index}")
             predicted = classes[predicted_index]
